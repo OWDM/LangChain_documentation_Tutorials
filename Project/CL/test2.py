@@ -58,15 +58,19 @@ Key Information:
 {key_info}
 
 Please provide a structured summary of this article, following these guidelines:
-1. Start with a title that begins with a noun or an entity relevant to the news.
-2. Then, without any label, provide a summary that:
-   - First Sentence: Describes what was developed or achieved, mentioning specific names and their nationalities.
-   - Second Sentence: Briefly explains the functionality or purpose of the development.
-   - Third Sentence: Mentions key results or findings.
-   - Fourth Sentence: Provides any future plans or goals related to the development.
-3. Keep the summary under 85 words, excluding the title.
-4. Focus on clarity and conciseness.
-5. Focus on the important number and mention it if it is important.
+
+1. List all statistics mentioned in the article with their descriptions.
+
+2. Provide a structured summary of the article using the following guidelines:
+   a. Start with a title that begins with a noun or an entity relevant to the news.
+   b. Then, without any label, provide a summary that:
+      - First Sentence: Describes what was developed or achieved, mentioning specific names and their nationalities.
+      - Second Sentence: Briefly explains the functionality or purpose of the development.
+      - Third Sentence: Mentions key results or findings.
+      - Fourth Sentence: Provides any future plans or goals related to the development.
+   c. Keep the summary under 85 words, excluding the title.
+   d. Focus on clarity and conciseness.
+   e. Focus on the important number and mention it if it is important..
 Format your response as follows:
 [Title]
 [Four-sentence summary]
@@ -78,6 +82,7 @@ Do not include any labels like "Title:" or "Summary:". Start directly with the t
     chain = LLMChain(llm=llm, prompt=prompt)
     summary = chain.run(article=article, key_info=str(key_info))
     return summary
+#Translate the following English  to Arabic, maintaining its technical accuracy and structure. if an Englich noun is used, please use transliteration with keeping the english noun between two brackets, fro example (Google) جوجل
 
 def translate_to_arabic(text: str) -> str:
     llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
@@ -85,7 +90,7 @@ def translate_to_arabic(text: str) -> str:
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content="""You are an expert translator specializing in technical translations from English to Arabic. Your task is to provide an accurate and fluent translation that preserves the technical nuances and structure of the original text."""),
         HumanMessagePromptTemplate.from_template("""
-Translate the following English text to Arabic, maintaining its technical accuracy and structure:
+Translate the following text to Arabic, but transliterate all proper nouns and brand names, ensuring they are written in Arabic script based on their pronunciation, without translating their meaning. If you do, please mention the English noun or brand between two brackets for example جوجل (Google)
 
 {text}
 
