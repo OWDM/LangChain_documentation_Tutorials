@@ -23,7 +23,7 @@ def create_vectorstore(text: str) -> FAISS:
     return FAISS.from_texts(texts, embeddings)
 
 def extract_key_info(article: str) -> Dict[str, str]:
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4o")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
     vectorstore = create_vectorstore(article)
     retriever = vectorstore.as_retriever()
 
@@ -47,7 +47,7 @@ def extract_key_info(article: str) -> Dict[str, str]:
     return results
 
 def generate_summary(article: str, key_info: Dict[str, str]) -> str:
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4o")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
     
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content="""You are an expert in summarizing technical news articles. Your task is to create a concise and structured summary of the given article, focusing on the key technical information."""),
@@ -66,7 +66,7 @@ Please provide a structured summary of this article, following these guidelines:
    - Fourth Sentence: Provides any future plans or goals related to the development.
 3. Keep the summary under 85 words, excluding the title.
 4. Focus on clarity and conciseness.
-
+5. Focus on the important number and mention it if it is important.
 Format your response as follows:
 [Title]
 [Four-sentence summary]
@@ -80,7 +80,7 @@ Do not include any labels like "Title:" or "Summary:". Start directly with the t
     return summary
 
 def translate_to_arabic(text: str) -> str:
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4o")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
     
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content="""You are an expert translator specializing in technical translations from English to Arabic. Your task is to provide an accurate and fluent translation that preserves the technical nuances and structure of the original text."""),
@@ -98,7 +98,7 @@ Please ensure that the translation follows the same format as the original, with
     return translation
 
 def main():
-    article = read_article(r"D:\owd1\Documents\GitHub-REPO\LangChain_documentation_Tutorials\Project\article.txt")
+    article = read_article(r"D:\owd1\Documents\GitHub-REPO\LangChain_documentation_Tutorials\Project\CL\articles\article_3.txt")
     
     print("Extracting key information...")
     key_info = extract_key_info(article)
