@@ -47,7 +47,7 @@ def extract_key_info(article: str) -> Dict[str, str]:
     return results
 
 def generate_summary(article: str, key_info: Dict[str, str]) -> str:
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini",verbose=True)
     
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content="""You are an expert in summarizing technical news articles. Your task is to create a concise and structured summary of the given article, focusing on the key technical information."""),
@@ -85,7 +85,7 @@ Do not include any labels like "Title:" or "Summary:". Start directly with the t
 #Translate the following English  to Arabic, maintaining its technical accuracy and structure. if an Englich noun is used, please use transliteration with keeping the english noun between two brackets, fro example (Google) جوجل
 
 def translate_to_arabic(text: str) -> str:
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini",verbose=True)
     
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content="""You are an expert translator specializing in technical translations from English to Arabic. Your task is to provide an accurate and fluent translation that preserves the technical nuances and structure of the original text."""),

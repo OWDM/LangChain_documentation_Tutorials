@@ -56,23 +56,35 @@ Key Information:
 
 Please provide a structured summary of this article, following these guidelines:
 
-1. List all statistics mentioned in the article with their descriptions.
+1. List all relevant statistics mentioned in the article with their descriptions to help you understand the content.
 
-2. Provide a structured summary of the article using the following guidelines:
-   a. Start with a title that begins with a noun or an entity relevant to the news.
-   b. Then, without any label, provide a summary that:
-      - First Sentence: Describes what was developed or achieved, mentioning specific names and their nationalities.
+2. Then, provide a concise summary of the article using the following structure:
+   a. Determine the primary category for the article from the following options:
+       - Organizations: For articles about non-governmental organizations, international bodies, or institutions.
+       - Governments: For articles about governmental actions, policies, or initiatives.
+       - Universities: For articles about research, scientific findings, or academic reports.
+       - Companies: For articles about businesses, corporations, or commercial entities.
+    Choose the category that best fits the main focus of the article.
+   b. Focus on the actual title for the article and then adjust it to start with a noun or an entity relevant to the news.
+   c. Then, provide a summary that:
+      - First Sentence: Describes what was developed or achieved.
       - Second Sentence: Briefly explains the functionality or purpose of the development.
       - Third Sentence: Mentions key results or findings.
       - Fourth Sentence: Provides any future plans or goals related to the development.
-   c. Keep the summary under 85 words, excluding the title.
-   d. Focus on clarity and conciseness.
-   e. Focus on the important number and mention it if it is important..
+   d. Keep the summary under 130 words, excluding the category and the title.
+   e. Focus on clarity and conciseness.
+   f. Focus on the important number and mention it if it is important..
 Format your response as follows:
+                                                 
+[Category]
+                                                 
 [Title]
+
+                                                                                          
 [Four-sentence summary]
 
-Do not include any labels like "Title:" or "Summary:". Start directly with the title, followed by a line break, then the summary.
+                                       
+Do not include any labels like "Title:" or "Summary:" or "Category". Start directly with the Category, followed by a line break, and the title, followed by a line break, and then, finally with the summary.
 """)
     ])
     
@@ -81,16 +93,16 @@ Do not include any labels like "Title:" or "Summary:". Start directly with the t
     return summary
 
 def translate_to_arabic(text: str) -> str:
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini",verbose=True)
     
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content="""You are an expert translator specializing in technical translations from English to Arabic. Your task is to provide an accurate and fluent translation that preserves the technical nuances and structure of the original text."""),
         HumanMessagePromptTemplate.from_template("""
-Translate the following text to Arabic, but transliterate all proper nouns and brand names, ensuring they are written in Arabic script based on their pronunciation, without translating their meaning. If you do, please mention the English noun or brand between two brackets for example جوجل (Google)
-
+Translate the following text to Arabic, but transliterate all proper nouns and brand names, ensuring they are written in Arabic script based on their pronunciation, without translating their meaning. For the first occurrence of each proper noun or brand name, mention the English version between two brackets. For example, write جوجل (Google) the first time, but in subsequent mentions, only write جوجل. After the first mention, use only the Arabic transliteration without the English in brackets
+If the there a  percentage or numerical statistic, enclose it in parentheses. For example, change '30%' to '(30%)'. 
 {text}
 
-Please ensure that the translation follows the same format as the original, with a title on the first line, followed by the summary. Do not add any labels in Arabic for "Title" or "Summary".
+Please ensure that the translation follows the same format as the original, with a Category on the first line (do not add ال to the word, make it indefinite), followed by the title and the summary. Do not add any labels in Arabic for "Title" or "Summary" or "Category".
 """)
     ])
     
@@ -129,7 +141,7 @@ if st.button("Generate a Summary"):
         # Process the article
         try:
             # Extracting key information
-            status_text.text("Reading in depth... 📚")
+            status_text.text("Reading ... 📚")
             progress_bar.progress(25)
             key_info = extract_key_info(article)
             time.sleep(0.5)  # Simulate processing time
