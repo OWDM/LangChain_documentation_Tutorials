@@ -20,7 +20,7 @@ def create_vectorstore(text: str) -> FAISS:
     return FAISS.from_texts(texts, embeddings)
 
 def extract_key_info(article: str) -> Dict[str, str]:
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o")
     vectorstore = create_vectorstore(article)
     retriever = vectorstore.as_retriever()
 
@@ -44,7 +44,7 @@ def extract_key_info(article: str) -> Dict[str, str]:
     return results
 
 def generate_summary(article: str, key_info: Dict[str, str]) -> str:
-    llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-4o")
     
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content="""You are an expert in summarizing technical news articles. Your task is to create a concise and structured summary of the given article, focusing on the key technical information."""),
@@ -71,7 +71,7 @@ Please provide a structured summary of this article, following these guidelines:
       - Second Sentence: Briefly explains the functionality or purpose of the development.
       - Third Sentence: Mentions key results or findings.
       - Fourth Sentence: Provides any future plans or goals related to the development.
-   d. Keep the summary under 130 words, excluding the category and the title.
+   d. Keep the summary under 180 words, excluding the category and the title.
    e. Focus on clarity and conciseness.
    f. Focus on the important number and mention it if it is important..
 Format your response as follows:
